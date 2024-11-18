@@ -7,11 +7,14 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Public } from 'src/modules/auth/public-strategy';
-import { CreateUserDto, SignInUserDto } from 'src/user/dto/create-user.dto';
-import { UserService } from 'src/user/user.service';
+import {
+  CreateUserDto,
+  SignInUserDto,
+} from 'src/modules/user/dto/create-user.dto';
+import { UserService } from 'src/modules/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { User } from 'src/user/entities/user.entity';
+import { User } from 'src/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
