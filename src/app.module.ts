@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
-import { User } from './entities/user.entity';
 import { AuthModule } from './modules/auth/auth.module';
+import { User } from './entities/user.entity';
+import { Message } from './entities/message.entity';
+import { Conversation } from './entities/conversation.entity';
+import { MessagesModule } from './modules/messages/messages.module';
 
 @Module({
   imports: [
@@ -13,13 +16,14 @@ import { AuthModule } from './modules/auth/auth.module';
       username: 'postgres',
       password: 'postgres',
       database: 'cod_in',
-      entities: [User],
+      entities: [User, Message, Conversation],
       synchronize: true,
       migrationsTableName: 'typeorm_migrations',
       migrationsRun: true,
     }),
     UserModule,
     AuthModule,
+    MessagesModule,
   ],
 })
 export class AppModule {}

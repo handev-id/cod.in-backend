@@ -7,10 +7,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Public } from 'src/modules/auth/public-strategy';
-import {
-  CreateUserDto,
-  SignInUserDto,
-} from 'src/modules/user/dto/create-user.dto';
+import { CreateUserDto, SignInUserDto } from 'src/dtos/user/create-user.dto';
 import { UserService } from 'src/modules/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
