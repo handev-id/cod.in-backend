@@ -13,6 +13,13 @@ export class AuthMiddleware implements NestMiddleware {
   constructor(private readonly userService: UserService) {}
 
   async use(req: Request, res: Response, next: NextFunction) {
+    if (
+      req.originalUrl.includes('register') ||
+      req.originalUrl.includes('login')
+    ) {
+      next();
+      return;
+    }
     const authHeaders = req.headers.authorization;
     if (authHeaders && (authHeaders as string).split(' ')[1]) {
       const token = (authHeaders as string).split(' ')[1];
@@ -26,7 +33,7 @@ export class AuthMiddleware implements NestMiddleware {
         throw new UnauthorizedException();
       }
 
-      req.user = user;
+      req['user'] = user;
       next();
     } else {
       throw new UnauthorizedException();

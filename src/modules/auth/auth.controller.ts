@@ -12,6 +12,7 @@ import { UserService } from 'src/modules/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/entities/user.entity';
+import { compare } from 'bcrypt';
 
 @Controller('auth')
 export class AuthController {
@@ -31,9 +32,12 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   async signIn(@Body() signInDto: SignInUserDto) {
-    const user = await this.userService.findOneByEmail(signInDto.email);
+    const { password, email } = signInDto;
+    const user = await this.userService.findOneByEmail(email);
 
-    if (signInDto.password !== user.password) throw new UnauthorizedException();
+    const matchingPassword = await compare(password, user.password);
+
+    if (!matchingPassword) throw new UnauthorizedException();
 
     const payload = { sub: user.id, email: user.email };
     return {
@@ -50,7 +54,7 @@ export class AuthController {
   })
   @Public()
   @HttpCode(HttpStatus.CREATED)
-  @Post('signup')
+  @Post('register')
   async signUp(@Body() payload: CreateUserDto) {
     return await this.userService.create(payload);
   }

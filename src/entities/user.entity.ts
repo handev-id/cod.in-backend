@@ -23,9 +23,6 @@ export class User extends BaseEntity {
   password: string;
 
   @Column({ nullable: true })
-  balance?: number;
-
-  @Column({ nullable: true })
   location?: string;
 
   @OneToMany(() => Message, (message) => message.sender)
